@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Starting sync...";
+onedrive --synchronize --local-first
+echo "Done syncing!";

@@ -1,0 +1,16 @@
+# VisualStudioCode template
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IntelliJ project files
+.idea
+out
+gen
+
+# Files that will change
+workspace/*
+.env
+data/ssh/ssh-keys.pub

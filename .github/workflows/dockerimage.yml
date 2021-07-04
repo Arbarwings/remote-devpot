@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy development .env file
+        run: cp .env.development .env
+      - name: Edit sync file
+        run: echo '#!/bin/bash' > build-config/cron/onedrive
+      - name: Create web network
+        run: docker network create web
+      - name: Build the Docker image
+        run: docker-compose build
+      - name: Start the Dockers
+        run: docker-compose up -d
+      - name: Sleep for 3 minutes
+        uses: jakejarvis/wait-action@master
+        with:
+          time: "180s"
+      - name: Check Dockers health
+        run: docker-compose ps
