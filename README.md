@@ -9,7 +9,7 @@
 
 <p align="center">
   <a href="https://github.com/Arbarwings/remote-devpot/actions">
-    <img src="https://img.shields.io/github/workflow/status/Arbarwings/remote-devpot/release?style=flat-square"
+    <img src="https://img.shields.io/github/workflow/status/Arbarwings/remote-devpot/Docker%20Image%20CI/master?style=flat-square"
       alt="Build Status" />
   </a>
   <a href="https://github.com/Arbarwings/remote-devpot/blob/master/LICENSE">
@@ -72,7 +72,7 @@ $ docker-compose build
 # Start all the containers
 $ docker-compose up -d
 # Connect to Remote DevPot by SSH
-$ root@{IP} -p 1022
+$ ssh root@{IP} -p 1022
 # Setup OneDrive and follow the instruction on screen
 $ onedrive
 ```
