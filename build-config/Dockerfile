@@ -5,6 +5,12 @@
 # for a list of version numbers.
 FROM phusion/baseimage:focal-1.0.0
 
+# Use the closest mirrors
+RUN apt-get update && apt-get install -y --no-install-recommends pip \
+    && pip install apt-mirror-updater \
+    && apt-mirror-updater --auto-change-mirror \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 # Install locale
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
