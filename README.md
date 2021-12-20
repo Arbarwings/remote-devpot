@@ -34,18 +34,15 @@ Create a clean an fast development environment that is accessible from anywhere.
 Includes:
 
 - Ubuntu 20.04 based image
-- Nginx
 - SSH
 - NodeJS
 - OH-MY-ZSH (with spaceship theme)
 - OneDrive
-- GitHub auth on a public domain
 
 ## Requirements
 
 - Docker
 - Docker compose
-- Traefik v2+
 - GitHub account
 - OneDrive account
 
@@ -62,9 +59,6 @@ $ cd remote-devpot
 $ mkdir data/ssh && echo "ssh-rsa ABC..." >> data/ssh/ssh-keys.pub
 # Copy the example environments
 $ cp .env.example .env
-# Register a new OAuth application on GitHub
-# https://github.com/thomseddon/traefik-forward-auth/wiki/Provider-Setup#github
-# User authorization callback URL should be: https://oauth.${DOMAIN}
 # Change the environment values where needed
 $ nano .env
 # Build the containers
@@ -87,9 +81,8 @@ $ onedrive
 6. Install Github CI
 7. Pull this repo
 8. Use the IP settings from .env.example in .env
-9. Maybe remove Thedia
-10. Build Docker
-11. You can open the file explorer by typing "explorer.exe ." in the Ubuntu terminal
+9. Build Docker
+10. You can open the file explorer by typing "explorer.exe ." in the Ubuntu terminal
 
 ## Usage
 
@@ -99,20 +92,7 @@ $ onedrive
 - Easy to use on any computer. Just connect to the Remote DevPot SSH and start developing :)
 - Ports can be easily forwarded to the local machine
 
-### Websites
-
-- Site structure: {customer}.{DOMAIN} or {project}\_{customer}.{DOMAIN}
-- Available on ports: 80 and 443
-
 ### SSH
 
 - Add SSH keys in data/ssh/ssh-keys.pub
 - Available on port: 1022
-
-### NodeJS
-
-- Available on port: 3000 or nodejs.{DOMAIN}
-
-### Theia IDE
-
-- Available on: ide.{DOMAIN}

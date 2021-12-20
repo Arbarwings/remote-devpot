@@ -9,89 +9,13 @@ services:
         NODE_VERSION: ${NODE_VERSION}
         GIT_USER_NAME: ${GIT_USER_NAME}
         GIT_USER_EMAIL: ${GIT_USER_EMAIL}
-    hostname: ${DOMAIN}
     container_name: devpot
     env_file: .env
     privileged: true
-    networks:
-      - web
-      - devpot-intern
     ports:
-      - "${NETWORK2_IPV4}:1022:22"
-      - "${NETWORK2_IPV6}:1022:22"
-    labels:
-      - traefik.enable=true
-      - traefik.http.services.devpot.loadbalancer.server.port=80
-      - traefik.http.routers.devpot.rule=HostRegexp(`${DOMAIN}`, `{subdomain:.+}.${DOMAIN}`)
-      - traefik.http.routers.devpot.priority=1
-      - traefik.http.routers.devpot.entrypoints=web
-      - traefik.http.routers.devpot.middlewares=https-redirect@file
-      - traefik.http.routers.devpot-secured.rule=HostRegexp(`${DOMAIN}`, `{subdomain:.+}.${DOMAIN}`)
-      - traefik.http.routers.devpot-secured.priority=1
-      - traefik.http.routers.devpot-secured.entrypoints=web-secure
-      - traefik.http.routers.devpot-secured.middlewares=abw-chain@file
-      - traefik.http.routers.devpot-secured.tls=true
-      - traefik.http.routers.devpot-secured.tls.certresolver=dnschallange
-      - traefik.http.routers.devpot-secured.tls.domains[0].main=${DOMAIN}
-      - traefik.http.routers.devpot-secured.tls.domains[0].sans=*.${DOMAIN}
+      - "1022:22"
     volumes:
       - ./data/ssh/ssh-keys.pub:/tmp/ssh-keys.pub
-      - ./data/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./data/nginx/sites-enabled:/etc/nginx/sites-enabled
-      - ./data/nginx/sites-content:/etc/nginx/sites-content
       - ./data/onedrive/config:/root/.config/onedrive/config
       - ./workspace:/workspace
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 1m
-      timeout: 10s
-      retries: 10
-      start_period: 1m
     restart: always
-
-  oauth:
-    image: thomseddon/traefik-forward-auth:latest
-    container_name: oauth
-    env_file: .env
-    restart: always
-    networks:
-      - web
-    environment:
-      - DEFAULT_PROVIDER=generic-oauth
-      - PROVIDERS_GENERIC_OAUTH_AUTH_URL=https://github.com/login/oauth/authorize
-      - PROVIDERS_GENERIC_OAUTH_TOKEN_URL=https://github.com/login/oauth/access_token
-      - PROVIDERS_GENERIC_OAUTH_USER_URL=https://api.github.com/user
-      - PROVIDERS_GENERIC_OAUTH_CLIENT_ID=$GITHUB_CLIENT_ID
-      - PROVIDERS_GENERIC_OAUTH_CLIENT_SECRET=$GITHUB_CLIENT_SECRET
-      - SECRET=$OAUTH_SECRET
-      - COOKIE_DOMAIN=$DOMAIN
-      - INSECURE_COOKIE=false
-      - AUTH_HOST=oauth.${DOMAIN}
-      - URL_PATH=/_oauth
-      - WHITELIST=$MY_EMAIL
-      - LIFETIME=43200 # 12 hours
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.oauth-rtr.entrypoints=web-secure
-      - traefik.http.routers.oauth-rtr.rule=Host(`oauth.${DOMAIN}`)
-      - traefik.http.routers.oauth-rtr.tls=true
-      - traefik.http.routers.oauth-rtr.tls.certresolver=dnschallange
-      - traefik.http.routers.oauth-rtr.tls.domains[0].main=${DOMAIN}
-      - traefik.http.routers.oauth-rtr.tls.domains[0].sans=*.${DOMAIN}
-      - traefik.http.routers.oauth-rtr.middlewares=secure-chain@file
-      - traefik.http.routers.oauth-rtr.service=oauth-svc
-      - traefik.http.services.oauth-svc.loadbalancer.server.port=4181
-
-  ide:
-    image: theiaide/theia:next
-    container_name: devpot-ide
-    networks:
-      - devpot-intern
-    volumes:
-      - ./workspace:/home/project:rw
-
-networks:
-  devpot-intern:
-    external: false
-  web:
-    external: true
