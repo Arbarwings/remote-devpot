@@ -41,20 +41,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nano \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install Nginx
-RUN add-apt-repository ppa:nginx/stable && apt-get update \
-    && apt-get install -y --no-install-recommends nginx-full \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Disable services start
-RUN update-rc.d -f nginx remove
-
-# Add startup scripts for Nginx
-COPY services/nginx.sh /etc/service/nginx/run
-RUN chmod +x /etc/service/nginx/run
-
 # Add workspace folder
-RUN mkdir /workspace && usermod -u 1000 -d /workspace -s /bin/bash www-data && chown -R www-data:www-data /workspace && chmod 775 /workspace
+RUN mkdir /workspace && chmod 775 /workspace
 
 # Install OH-MY-ZSH to see pretty terminal and ditch the bash
 ENV ZSH=/home/.oh-my-zsh
@@ -94,10 +82,6 @@ RUN rm -f /etc/service/sshd/down \
     && /etc/my_init.d/00_regen_ssh_host_keys.sh \
     && chmod +x /etc/my_init.d/01_add_ssh_keys.sh
 
-# Install permissons fix
-COPY init/02_fix_permissions.sh /etc/my_init.d/02_fix_permissions.sh
-RUN chmod +x /etc/my_init.d/02_fix_permissions.sh
-
 # Install OneDrive
 COPY cron/onedrive /etc/cron.hourly/onedrive
 RUN add-apt-repository ppa:yann1ck/onedrive && apt-get update \
@@ -131,7 +115,7 @@ VOLUME /workspace
 WORKDIR /workspace
 
 # Expose used ports
-EXPOSE 80 443 22
+EXPOSE 22
 
 # Change default shell
 SHELL ["/bin/zsh", "-c"]
