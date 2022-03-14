@@ -58,7 +58,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends zsh fonts-power
 SHELL ["/bin/zsh", "-o", "pipefail", "-c"]
 ENV NVM_DIR /usr/local/nvm
 RUN mkdir -p "$NVM_DIR" \
-    && curl --silent --location https://raw.githubusercontent.com/creationix/nvm/master/install.sh | zsh \
+    && curl --silent --location https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash \
     && source $NVM_DIR/nvm.sh \
     && sed -i 's/plugins=(git)/plugins=(git nvm)/g' /root/.zshrc \
     && echo "export NVM_DIR=$NVM_DIR" >> /root/.zshrc
