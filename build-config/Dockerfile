@@ -3,7 +3,7 @@
 # to `latest`! See
 # https://github.com/phusion/baseimage-docker/releases
 # for a list of version numbers.
-FROM phusion/baseimage:focal-1.0.0
+FROM phusion/baseimage:focal-1.2.0
 
 # Use the closest mirrors
 RUN apt-get update && apt-get install -y --no-install-recommends pip \
