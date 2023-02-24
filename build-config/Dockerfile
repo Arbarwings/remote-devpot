@@ -88,7 +88,7 @@ RUN wget -qO - https://download.opensuse.org/repositories/home:/npreining:/debia
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/obs-onedrive.gpg] https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_22.04/ ./" | tee /etc/apt/sources.list.d/onedrive.list
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests onedrive \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /root/.config/onedrive \
     && mkdir /onedrive \
     && ln -s /workspace /onedrive/Development \
