@@ -84,8 +84,10 @@ RUN rm -f /etc/service/sshd/down \
 
 # Install OneDrive
 COPY cron/onedrive /etc/cron.hourly/onedrive
-RUN add-apt-repository ppa:yann1ck/onedrive && apt-get update \
-    && apt-get install -y --no-install-recommends onedrive \
+RUN wget -qO - https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_22.04/Release.key | gpg --dearmor | tee /usr/share/keyrings/obs-onedrive.gpg > /dev/null
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/obs-onedrive.gpg] https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_22.04/ ./" | tee /etc/apt/sources.list.d/onedrive.list
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends --no-install-suggests onedrive \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* \
     && mkdir -p /root/.config/onedrive \
     && mkdir /onedrive \
