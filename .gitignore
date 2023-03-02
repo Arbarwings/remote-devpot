@@ -14,3 +14,5 @@ gen
 workspace/*
 .env
 data/ssh/ssh-keys.pub
+data/ssh/id_rsa
+data/ssh/id_rsa.pub
