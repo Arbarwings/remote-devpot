@@ -52,6 +52,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends zsh fonts-power
     && git clone https://github.com/denysdovhan/spaceship-prompt.git /home/.oh-my-zsh/themes/spaceship-prompt \
     && ln -s /home/.oh-my-zsh/themes/spaceship-prompt/spaceship.zsh-theme /home/.oh-my-zsh/themes/spaceship.zsh-theme \
     && sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="spaceship"/g' /root/.zshrc \
+    && echo "SPACESHIP_PROMPT_ASYNC=false" >> /root/.spaceshiprc.zsh
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install NVM
@@ -64,7 +65,7 @@ RUN mkdir -p "$NVM_DIR" \
     && echo "export NVM_DIR=$NVM_DIR" >> /root/.zshrc
 
 # Install NodeJS
-ARG NODE_VERSION=16
+ARG NODE_VERSION=18
 ENV NODE_VERSION ${NODE_VERSION}
 SHELL ["/bin/zsh", "-o", "pipefail", "-c"]
 RUN /bin/zsh -c "source $NVM_DIR/nvm.sh \
@@ -99,9 +100,9 @@ ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL
 RUN git config --global user.name "${GIT_USER_NAME}" && git config --global user.email "${GIT_USER_EMAIL}" && git config --global core.fileMode false
 
-# Install NodeJS package update checker
+# Install NodeJS package update checker and Yarn
 RUN /bin/zsh -c "source $NVM_DIR/nvm.sh \
-    && npm install -g npm-check-updates"
+    && npm install -g npm-check-updates yarn"
 
 # Change the max file watch
 #RUN echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf && sysctl -p
