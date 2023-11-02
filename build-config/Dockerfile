@@ -103,7 +103,7 @@ RUN git config --global user.name "${GIT_USER_NAME}" && git config --global user
 
 # Install NodeJS package update checker and Yarn
 RUN /bin/zsh -c "source $NVM_DIR/nvm.sh \
-    && npm install -g npm-check-updates yarn"
+    && npm install -g npm-check-updates"
 
 # Change the max file watch
 #RUN echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf && sysctl -p
