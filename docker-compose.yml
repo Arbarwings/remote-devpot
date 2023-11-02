@@ -10,6 +10,7 @@ services:
         GIT_USER_NAME: ${GIT_USER_NAME}
         GIT_USER_EMAIL: ${GIT_USER_EMAIL}
     container_name: devpot
+    hostname: devpot
     env_file: .env
     privileged: true
     ports:
