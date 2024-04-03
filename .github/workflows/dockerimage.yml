@@ -15,11 +15,11 @@ jobs:
       - name: Create web network
         run: docker network create web
       - name: Build the Docker image
-        run: docker-compose build
+        run: docker compose build
       - name: Start the Dockers
-        run: docker-compose up -d
+        run: docker compose up -d
       - name: Sleep for 3 minutes
         run: sleep 180s
         shell: bash
       - name: Check Dockers health
-        run: docker-compose ps
+        run: docker compose ps
