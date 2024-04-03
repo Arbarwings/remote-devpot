@@ -62,9 +62,9 @@ $ cp .env.example .env
 # Change the environment values where needed
 $ nano .env
 # Build the containers
-$ docker-compose build
+$ docker compose build
 # Start all the containers
-$ docker-compose up -d
+$ docker compose up -d
 # Connect to Remote DevPot by SSH
 $ ssh root@{IP} -p 1022
 # Setup OneDrive and follow the instruction on screen

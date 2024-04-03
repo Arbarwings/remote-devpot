@@ -3,7 +3,7 @@
 # to `latest`! See
 # https://github.com/phusion/baseimage-docker/releases
 # for a list of version numbers.
-FROM phusion/baseimage:jammy-1.0.1
+FROM phusion/baseimage:jammy-1.0.3
 
 # Use the closest mirrors
 RUN apt-get update && apt-get install -y --no-install-recommends pip \
@@ -66,7 +66,7 @@ RUN mkdir -p "$NVM_DIR" \
     && echo "export NVM_DIR=$NVM_DIR" >> /root/.zshrc
 
 # Install NodeJS
-ARG NODE_VERSION=18
+ARG NODE_VERSION=20
 ENV NODE_VERSION ${NODE_VERSION}
 SHELL ["/bin/zsh", "-o", "pipefail", "-c"]
 RUN /bin/zsh -c "source $NVM_DIR/nvm.sh \
