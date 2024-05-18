@@ -9,7 +9,7 @@
 
 <p align="center">
   <a href="https://github.com/Arbarwings/remote-devpot/actions">
-    <img src="https://img.shields.io/github/workflow/status/Arbarwings/remote-devpot/Docker%20Image%20CI/master?style=flat-square"
+    <img src="https://img.shields.io/github/actions/workflow/status/Arbarwings/remote-devpot/dockerimage.yml?style=flat-square"
       alt="Build Status" />
   </a>
   <a href="https://github.com/Arbarwings/remote-devpot/blob/master/LICENSE">
@@ -66,23 +66,22 @@ $ docker compose build
 # Start all the containers
 $ docker compose up -d
 # Connect to Remote DevPot by SSH
-$ ssh root@{IP} -p 1022
+$ ssh root@localhost -p 1022
 # Setup OneDrive and follow the instruction on screen
 $ onedrive
 ```
 
 ### Windows
 
-1. Install WSL 2
-2. Set default version as 2
-3. Install Docker Desktop
-4. Install Ubuntu
-5. Enable integration with Ubuntu in Docker Desktop
-6. Install Github CI
-7. Pull this repo
-8. Use the IP settings from .env.example in .env
-9. Build Docker
-10. You can open the file explorer by typing "explorer.exe ." in the Ubuntu terminal
+1. Install Docker Desktop
+2. Install Github CLI
+3. Pull this repo
+4. Copy .env.example to .env and fill in the values
+5. Paste your SSH keys in data/ssh/ssh-keys.pub
+6. Run `docker compose build`
+7. Run `docker compose up -d`
+8. Connect to Remote DevPot by SSH `ssh root@localhost -p 1022`
+9. Setup OneDrive and follow the instruction on screen `onedrive`
 
 ## Usage
 

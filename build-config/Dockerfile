@@ -78,12 +78,6 @@ RUN /bin/zsh -c "source $NVM_DIR/nvm.sh \
     && npm config set cache /var/opt/npm-cache --global \
     && npm cache verify --global"   
 
-# Install SSH key
-COPY init/01_add_ssh_keys.sh /etc/my_init.d/01_add_ssh_keys.sh
-RUN rm -f /etc/service/sshd/down \
-    && /etc/my_init.d/00_regen_ssh_host_keys.sh \
-    && chmod +x /etc/my_init.d/01_add_ssh_keys.sh
-
 # Install OneDrive
 COPY cron/onedrive /etc/cron.hourly/onedrive
 RUN wget -qO - https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_22.04/Release.key | gpg --dearmor | tee /usr/share/keyrings/obs-onedrive.gpg > /dev/null
@@ -104,6 +98,16 @@ RUN git config --global user.name "${GIT_USER_NAME}" && git config --global user
 # Install NodeJS package update checker and Yarn
 RUN /bin/zsh -c "source $NVM_DIR/nvm.sh \
     && npm install -g npm-check-updates"
+
+# Install SSH key
+COPY init/01_add_ssh_keys.sh /etc/my_init.d/01_add_ssh_keys.sh
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dos2unix \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN dos2unix /etc/my_init.d/01_add_ssh_keys.sh
+RUN rm -f /etc/service/sshd/down \
+    && /etc/my_init.d/00_regen_ssh_host_keys.sh \
+    && chmod +x /etc/my_init.d/01_add_ssh_keys.sh
 
 # Change the max file watch
 #RUN echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf && sysctl -p
