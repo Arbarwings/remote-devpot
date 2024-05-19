@@ -83,6 +83,15 @@ $ onedrive
 8. Connect to Remote DevPot by SSH `ssh root@localhost -p 1022`
 9. Setup OneDrive and follow the instruction on screen `onedrive`
 
+### SSH agent forwarding
+
+To use the SSH agent forwarding, you need to add the following to your SSH config:
+
+```sh
+Host localhost
+  ForwardAgent yes
+```
+
 ## Usage
 
 ### Visual Studio Code Remote
