@@ -88,8 +88,11 @@ $ onedrive
 To use the SSH agent forwarding, you need to add the following to your SSH config:
 
 ```sh
-Host localhost
-  ForwardAgent yes
+Host devpot.local
+    HostName localhost
+    User root
+    Port 1022
+    ForwardAgent yes
 ```
 
 ## Usage
