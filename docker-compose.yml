@@ -16,5 +16,8 @@ services:
     volumes:
       - ./data/ssh/ssh-keys.pub:/tmp/ssh-keys.pub
       - ./data/onedrive/config:/root/.config/onedrive/config
-      - ./workspace:/workspace
+      - devpot_workspace:/workspace
     restart: always
+volumes:
+  devpot_workspace:
+    driver: local
