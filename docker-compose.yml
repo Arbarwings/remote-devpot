@@ -13,6 +13,8 @@ services:
     privileged: true
     ports:
       - "1022:22"
+    networks:
+      - devpot_network
     volumes:
       - ./data/ssh/ssh-keys.pub:/tmp/ssh-keys.pub
       - ./data/onedrive/config:/root/.config/onedrive/config
@@ -21,3 +23,6 @@ services:
 volumes:
   devpot_workspace:
     driver: local
+networks:
+  devpot_network:
+    name: devpot_network
