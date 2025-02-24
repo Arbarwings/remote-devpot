@@ -39,6 +39,7 @@ Includes:
 - PNPM
 - OH-MY-ZSH (with spaceship theme)
 - OneDrive
+- Docker in Docker
 
 ## Requirements
 

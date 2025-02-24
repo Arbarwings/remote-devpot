@@ -14,6 +14,8 @@ services:
     privileged: true
     ports:
       - "1022:22"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - devpot_network
     volumes:
