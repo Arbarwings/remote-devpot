@@ -18,8 +18,8 @@ jobs:
         run: docker compose build
       - name: Start the Dockers
         run: docker compose up -d
-      - name: Sleep for 3 minutes
-        run: sleep 180s
+      - name: Sleep for 1 minute
+        run: sleep 60s
         shell: bash
       - name: Check Dockers health
         run: docker compose ps

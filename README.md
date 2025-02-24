@@ -33,7 +33,7 @@ Create a clean an fast development environment that is accessible from anywhere.
 
 Includes:
 
-- Ubuntu 22.04 based image
+- Ubuntu 24.04 based image
 - SSH
 - NodeJS
 - OH-MY-ZSH (with spaceship theme)
