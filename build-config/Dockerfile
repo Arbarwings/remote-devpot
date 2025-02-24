@@ -6,7 +6,7 @@
 FROM phusion/baseimage:noble-1.0.0
 
 # Use the closest mirrors
-RUN apt-get update && apt-get install -y --no-install-recommends pipx \
+RUN apt-get update && apt-get install -y --no-install-recommends pipx python3-pip \
     && pipx ensurepath \
     && export PATH="/root/.local/bin:$PATH" \
     && pipx install apt-mirror-updater \
