@@ -91,9 +91,9 @@ ARG GIT_USERNAME
 RUN git config --global user.name "${GIT_USER_NAME}" && git config --global user.email "${GIT_USER_EMAIL}" && git config --global core.fileMode false
 RUN if [ -n "${GIT_USERNAME}" ]; then git config --global user.username "${GIT_USERNAME}"; fi
 
-# Install NodeJS package update checker and Yarn
+# Install NodeJS package update checker and PNPM
 RUN /bin/zsh -c "source $NVM_DIR/nvm.sh \
-    && npm install -g npm-check-updates"
+    && npm install -g npm-check-updates pnpm"
 
 # Install SSH key
 COPY init/01_add_ssh_keys.sh /etc/my_init.d/01_add_ssh_keys.sh

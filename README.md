@@ -36,6 +36,7 @@ Includes:
 - Ubuntu 24.04 based image
 - SSH
 - NodeJS
+- PNPM
 - OH-MY-ZSH (with spaceship theme)
 - OneDrive
 
