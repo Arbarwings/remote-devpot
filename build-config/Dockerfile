@@ -3,7 +3,7 @@
 # to `latest`! See
 # https://github.com/phusion/baseimage-docker/releases
 # for a list of version numbers.
-FROM phusion/baseimage:jammy-1.0.4
+FROM phusion/baseimage:noble-1.0.0
 
 # Use the closest mirrors
 RUN apt-get update && apt-get install -y --no-install-recommends pip \
@@ -16,7 +16,7 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ARG TZ=Europe/Amsterdam
 ENV TZ ${TZ}
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && echo "$TZ" > /etc/timezone \
     && apt-get update && apt-get install -f -y --no-install-recommends --reinstall locales && locale-gen en_US.UTF-8 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -31,14 +31,14 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" \
 
 # Install build tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
     apt-transport-https \
+    build-essential \
     curl \
-    zip \
-    unzip \
     git \
-    wget \
     nano \
+    unzip \
+    wget \
+    zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add workspace folder
@@ -61,7 +61,7 @@ SHELL ["/bin/zsh", "-o", "pipefail", "-c"]
 ENV NVM_DIR /usr/local/nvm
 RUN mkdir -p "$NVM_DIR" \
     && curl --silent --location https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash \
-    && source $NVM_DIR/nvm.sh \
+    && source "$NVM_DIR/nvm.sh" \
     && sed -i 's/plugins=(git ssh-agent)/plugins=(git ssh-agent nvm)/g' /root/.zshrc \
     && echo "export NVM_DIR=$NVM_DIR" >> /root/.zshrc
 
@@ -80,8 +80,8 @@ RUN /bin/zsh -c "source $NVM_DIR/nvm.sh \
 
 # Install OneDrive
 COPY cron/onedrive /etc/cron.hourly/onedrive
-RUN wget -qO - https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_22.04/Release.key | gpg --dearmor | tee /usr/share/keyrings/obs-onedrive.gpg > /dev/null
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/obs-onedrive.gpg] https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_22.04/ ./" | tee /etc/apt/sources.list.d/onedrive.list
+RUN wget -qO - https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_24.04/Release.key | gpg --dearmor | tee /usr/share/keyrings/obs-onedrive.gpg > /dev/null
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/obs-onedrive.gpg] https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_24.04/ ./" | tee /etc/apt/sources.list.d/onedrive.list
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests onedrive \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
@@ -93,7 +93,9 @@ RUN apt-get update \
 # Add Git global config
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL
+ARG GIT_USERNAME
 RUN git config --global user.name "${GIT_USER_NAME}" && git config --global user.email "${GIT_USER_EMAIL}" && git config --global core.fileMode false
+RUN if [ -n "${GIT_USERNAME}" ]; then git config --global user.username "${GIT_USERNAME}"; fi
 
 # Install NodeJS package update checker and Yarn
 RUN /bin/zsh -c "source $NVM_DIR/nvm.sh \

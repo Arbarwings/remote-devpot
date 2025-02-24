@@ -7,6 +7,7 @@ services:
         NODE_VERSION: ${NODE_VERSION}
         GIT_USER_NAME: ${GIT_USER_NAME}
         GIT_USER_EMAIL: ${GIT_USER_EMAIL}
+        GIT_USERNAME: ${GIT_USERNAME}
     container_name: devpot
     hostname: devpot
     env_file: .env
@@ -19,6 +20,8 @@ services:
       - ./data/ssh/ssh-keys.pub:/tmp/ssh-keys.pub
       - ./data/onedrive/config:/root/.config/onedrive/config
       - devpot_workspace:/workspace
+      # Making docker-in-docker work
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: always
 volumes:
   devpot_workspace:
